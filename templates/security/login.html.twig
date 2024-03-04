@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            margin-top: -4rem;
+            background-image: url("{{ asset('images/loginback.jpg') }}");
+            background-size: cover; /* Cover the entire page */
+            background-position: center; /* Center the background image */
+        }
+
+        .container {
+            width: 40%;
+            margin: 6% 0px 0px 3%; /* Center the form on the screen */
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: #efefef;; /* White background for the form */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+            border-radius: 10px;
+            height: 37rem;
+        }
+
+        h1, label {
+            color: #333; /* Consistent text color */
+        }
+
+        input[type="email"], input[type="password"], button {
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            width: 100%; /* Ensure full width within container */
+        }
+
+        input[type="email"]:focus, input[type="password"]:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+        }
+
+    </style>
+
+    <div class="container">
+        <h1 style="font-size: 3rem" class="h3 mb-3 font-weight-normal">🔑 Please sign in</h1>
+        <p>Welcome back! 👋</p>
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+
+
+            <label for="inputEmail">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+            <br>
+            <label for="inputPassword">Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" required>
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+            <br>
+            <button style="width: 5rem" class="btn btn-primary float-right" type="submit">
+                Log in
+            </button>
+            <p class="no-account">Haven't an account? <a href="{{ path('register') }}">Sign up now!</a></p>
+            <h5 class="mt-5"><a href="{{ path('app_landing_page') }}">back to home ?</a></h5>
+
+        </form>
+    </div>
+{% endblock %}

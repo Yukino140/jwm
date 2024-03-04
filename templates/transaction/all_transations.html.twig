@@ -1,0 +1,35 @@
+{% extends 'clientdash/index.html.twig' %}
+
+{% block body %}
+
+
+    <main id="main" class="main">
+        <h3>Your History</h3>
+        <p>Here is your transaction history</p>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">from</th>
+                <th scope="col">to</th>
+                <th scope="col">Your Account Type</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.getAccountNumber }}</td>
+                    <td>{{ transaction.getReceiverAccountNumber }}</td>
+                    <td>{{ transaction.getTransactionType }}</td>
+                    <td>{{ transaction.getAmount }}</td>
+                    <td>{{ transaction.getCreatedAt|date }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </main>
+
+{% endblock %}

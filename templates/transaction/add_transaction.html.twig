@@ -1,0 +1,83 @@
+{% extends 'clientdash/index.html.twig' %}
+
+{% block body %}
+<style>
+
+
+    .form-label {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+<main id="main" class="main">
+
+    <section class="section">
+        <div class="container">
+            <div class="row justify-content-start">
+                <div class="col-md-6">
+                    <h1 class="text-start mb-4">Send Money 💸</h1>
+                    <p>Enter the required information below to securely send money 💰💰💰</p>
+                    {{ form_start(form, {'attr': {'class': 'form', 'novalidate': 'novalidate'}}) }}
+                    <div class="form-group">
+                        {% set accountChoices = form.account.vars.choices %}
+                        {% set modifiedAccountChoices = [] %}
+                        {% for choice in accountChoices %}
+                            {% set modifiedAccountChoices = accountChoices|filter(choice => choice.value in clientAccountTypes) %}
+                        {% endfor %}
+                        {{ form_label(form.account, 'Account to retrieve from', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.account, { 'choices': modifiedAccountChoices, 'attr': {'class': 'form-control', 'placeholder': 'Select account to retrieve from', 'required': 'required'} }) }}
+                    </div>
+
+
+
+                    <div class="form-group" style="margin-top: 1rem">
+                        {{ form_row(form.amount, {'attr': {'class': 'form-control', 'placeholder': '100000$', 'type': 'number', 'min': '1', 'required': 'required'}}) }}
+                    </div>
+                    <div class="form-group" style="margin-top: 1rem">
+                        {{ form_row(form.recipient, {'attr': {'class': 'form-control', 'placeholder': 'pfjdifk54g5d', 'required': 'required'}}) }}
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem">
+                        {{ form_row(form.codeAuthenticator, {'attr': {'class': 'form-control', 'placeholder': '******', 'pattern': '\d{6}', 'title': 'Please enter a 6-digit numeric code.', 'required': 'required'}}) }}
+                    </div>
+                    <hr>
+                   <div style="display: flex">
+                       <button style="height: 2.5rem" type="submit" class="btn btn-primary btn-block">Send</button>
+                       {% if (response is defined) and (response !='Transaction completed successfully 🎉')  %}
+                           <div class="alert alert-danger bx-fade-right" role="alert" style="width: 70%;margin-left: 2rem;margin-top: -0.5rem">
+                               {{ response }}
+                           </div>
+                       {% elseif (response is defined) and (response == 'Transaction completed successfully 🎉') %}
+                           <div id="successAlert" class="alert alert-success" role="alert" style="width: 70%;margin-left: 2rem;margin-top: -0.5rem;display: none;">
+                               {{ response }}
+                           </div>
+                       {% endif %}
+
+                   </div>
+                    {{ form_end(form) }}
+                </div>
+
+                <img style="width: 50%;height: 50%;margin-top: 2rem" src="{{ asset('images/send money.png') }}">
+            </div>
+        </div>
+        <br>
+
+
+    </section>
+</main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Show the success message
+            $('#successAlert').fadeIn();
+
+            // Hide the success message after 3 seconds
+            setTimeout(function() {
+                $('#successAlert').fadeOut();
+            }, 5000);
+        });
+    </script>
+
+
+{% endblock %}

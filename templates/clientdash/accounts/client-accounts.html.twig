@@ -1,0 +1,549 @@
+{% extends 'clientdash/index.html.twig' %}
+
+{% block body %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+    <style>
+        .card-background {
+            position: relative;
+            background-size: 18rem;
+            background-position: right;
+            background-repeat: no-repeat;
+            z-index: 1;
+
+            background: #8e9eab;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+        }
+
+        .card-date-position {
+            position: absolute;
+            top: 0.5rem; /* Adjust as needed */
+            right: 1rem; /* Adjust as needed */
+            width: auto;
+        }
+        /* Styles for the modal body */
+        .modal-body {
+            background-color: #f8f9fa; /* Light grey background */
+            padding: 20px; /* More padding for the body */
+        }
+
+        /* Styles for the list within the modal body */
+        .modal-body ul {
+            list-style-type: none; /* Remove default list style */
+            padding: 0; /* Remove default padding */
+        }
+
+        .modal-body ul li {
+            padding: 10px 0; /* Add some padding around each list item */
+            border-bottom: 1px solid #dee2e6; /* A light border between items for separation */
+        }
+
+        /* Styles for the "Details" links */
+        .modal-body ul li a {
+            color: #007bff; /* Bootstrap primary color for the link */
+            text-decoration: none; /* Removes underline from links */
+            font-weight: bold; /* Make the link text bold */
+        }
+
+        .modal-body ul li a:hover {
+            text-decoration: underline; /* Underline on hover for better UX */
+        }
+
+
+    </style>
+
+    {% set studentAccountDescription = 'A Student Account is specifically designed to meet the financial needs of students, providing a cost-effective and convenient way to manage money while in school. With no monthly fees and no minimum balance requirements, it\'s an ideal choice for students looking to save on banking costs.' ~
+        '<br><br>' ~
+        '<h4>No Monthly Fees:</h4>' ~
+        'Enjoy banking with zero monthly maintenance fees, making it easier to manage your finances without worrying about extra charges.' ~
+        '<br><br>' ~
+        '<h4>No Minimum Balance Requirement:</h4>' ~
+        'Start and maintain your account without the need to keep a minimum balance, offering flexibility for students who may have varying cash flows.' ~
+        '<br><br>' ~
+        '<h4>Educational Resources:</h4>' ~
+        'Many institutions offer financial literacy resources tailored for students, helping you learn about budgeting, saving, and other essential financial skills.'~
+        '<br><br>' ~
+        '<h4>Overdraft Protection:</h4>' ~
+        'Some student accounts offer overdraft protection, which can help you avoid costly overdraft fees if you accidentally spend more than you have in your account.'~
+        '<br><br>' ~
+        '<h4>Rewards and Incentives: </h4>' ~
+        'Some student accounts come with rewards for spending, as well as incentives like cashback on purchases, discounts on student services, or bonuses for good grades.'~'.'
+
+    %}
+
+    {% set savingsAccountDescription = 'A Savings Account is designed to help you grow your savings effortlessly with competitive interest rates. It\'s the perfect choice for anyone looking to secure their financial future while earning interest on their deposits.' ~
+        '<br><br>' ~
+        '<h4>Competitive Interest Rates:</h4>' ~
+        'Earn more with competitive interest rates, allowing your savings to grow faster over time.' ~
+        '<br><br>' ~
+        '<h4>Easy Access to Funds:</h4>' ~
+        'Enjoy easy access to your funds without compromising on the growth of your savings, perfect for emergency funds or saving for specific goals.' ~
+        '<br><br>' ~
+        '<h4>Low Minimum Balance Requirement:</h4>' ~
+        'Start saving with a low minimum balance requirement, making it accessible for savers at all levels.' ~
+        '<br><br>' ~
+        '<h4>Automatic Savings Plans:</h4>' ~
+        'Set up automatic transfers from your checking to your savings account to build your savings without having to think about it.' ~
+        '<br><br>' ~
+        '<h4>Online and Mobile Banking:</h4>' ~
+        'Manage your savings account easily with online and mobile banking, allowing you to check your balance, transfer funds, and deposit checks anytime, anywhere.' ~
+        '<br><br>' ~
+        '<h4>FDIC Insured:</h4>' ~
+        'Rest easy knowing your deposits are FDIC insured up to the legal limit, providing you with security and peace of mind.' ~ '.'
+    %}
+
+    {% set checkingAccountDescription = 'A Checking Account offers the utmost convenience for daily transactions, providing a secure and efficient way to manage your money. Ideal for day-to-day use, it allows for easy access to funds with checks, debit cards, and online payments.' ~
+        '<br><br>' ~
+        '<h4>Unlimited Transactions:</h4>' ~
+        'Enjoy the freedom of unlimited transactions, including checks, debit card purchases, and online bill payments, without worrying about transaction limits.' ~
+        '<br><br>' ~
+        '<h4>No Monthly Fees:</h4>' ~
+        'Many checking accounts come with no monthly maintenance fees, helping you save on costs and making banking simpler and more straightforward.' ~
+        '<br><br>' ~
+        '<h4>Debit Card Access:</h4>' ~
+        'Receive a debit card for convenient access to your funds anywhere debit cards are accepted, including ATMs for cash withdrawals.' ~
+        '<br><br>' ~
+        '<h4>Overdraft Protection Options:</h4>' ~
+        'Protect yourself from overdraft fees with optional overdraft protection services, which can link to another account or a line of credit to cover any shortfalls.' ~
+        '<br><br>' ~
+        '<h4>Direct Deposit:</h4>' ~
+        'Set up direct deposit for your paycheck or government benefits for quicker access to your funds without the wait.' ~
+        '<br><br>' ~
+        '<h4>Easy Account Management:</h4>' ~
+        'Benefit from easy account management features, including e-statements, transaction alerts, and more, to keep you informed and in control of your finances.' ~ '.'
+    %}
+
+    {% set jointAccountDescription = 'A Joint Account is an excellent way for partners, family members, or business associates to manage shared finances with ease and transparency. It combines the convenience of everyday banking with the added benefit of joint management for mutual financial goals.' ~
+        '<br><br>' ~
+        '<h4>Shared Financial Management:</h4>' ~
+        'Allows two or more individuals to manage their finances collectively, making it easier to handle household expenses, save for common goals, or manage shared investments.' ~
+        '<br><br>' ~
+        '<h4>Dual Access:</h4>' ~
+        'Both account holders have equal access to the account, including the ability to make deposits, withdrawals, and payments, ensuring full transparency and joint responsibility.' ~
+        '<br><br>' ~
+        '<h4>Simplified Bill Paying:</h4>' ~
+        'Streamlines the process of paying bills and expenses shared by the account holders, from rent or mortgage payments to utilities and groceries.' ~
+        '<br><br>' ~
+        '<h4>Joint Saving Goals:</h4>' ~
+        'Ideal for setting aside funds for future shared goals, such as vacations, home improvements, or educational expenses, with the ability to track progress together.' ~
+        '<br><br>' ~
+        '<h4>Emergency Preparedness:</h4>' ~
+        'Provides peace of mind knowing that both parties can access funds in the event of an emergency, ensuring financial support is always available.' ~
+        '<br><br>' ~
+        '<h4>Easy Monitoring and Management:</h4>' ~
+        'With online and mobile banking features, both account holders can monitor transactions, manage payments, and stay informed about the account status from anywhere at any time.' ~
+        '<br><br>' ~
+        '<h4>Building Trust:</h4>' ~
+        'A joint account can strengthen the relationship between account holders by building mutual trust through the shared responsibility of financial management.' ~ '.'
+    %}
+
+    {% set businessAccountDescription = 'A Business Account is designed to meet the unique financial needs of businesses, providing essential tools and services to facilitate smooth operations and growth. Whether you\'re a startup, small business, or established enterprise, our Business Account offers the following benefits:' ~
+        '<br><br>' ~
+        '<h4>Business-specific Banking:</h4>' ~
+        'Tailored banking solutions designed to address the specific needs of businesses, including business loans, merchant services, and payroll processing.' ~
+        '<br><br>' ~
+        '<h4>Convenient Account Management:</h4>' ~
+        'Easily manage your business finances with features such as online banking, mobile banking apps, and dedicated business support, allowing you to access your account anytime, anywhere.' ~
+        '<br><br>' ~
+        '<h4>Flexible Payment Options:</h4>' ~
+        'Enjoy flexibility in managing payments with features like business debit cards, online bill pay, and ACH transfers, making it convenient to pay vendors, suppliers, and employees.' ~
+        '<br><br>' ~
+        '<h4>Account Reporting and Analysis:</h4>' ~
+        'Access detailed account statements, financial reports, and analytics tools to gain insights into your business finances and make informed decisions for future growth and profitability.' ~
+        '<br><br>' ~
+        '<h4>Secure Transactions:</h4>' ~
+        'Rest assured knowing that your business transactions are secure with advanced encryption technologies, fraud detection systems, and round-the-clock monitoring to protect against unauthorized access and fraudulent activities.' ~
+        '<br><br>' ~
+        '<h4>Support for Growth:</h4>' ~
+        'As your business expands, our account offers scalable solutions to support your growth trajectory, including credit facilities, investment opportunities, and strategic financial advice.' ~
+        '<br><br>' ~
+        '<h4>Expert Guidance:</h4>' ~
+        'Benefit from the expertise of our dedicated business banking specialists who can provide personalized advice, financial planning, and solutions tailored to your business goals and objectives.' ~
+        '<br><br>' ~
+        '<h4>Building Long-term Relationships:</h4>' ~
+        'We\'re committed to building lasting partnerships with our business clients, supporting you at every stage of your journey with trusted financial services and solutions designed to help you succeed.' ~ '.'
+    %}
+
+
+    <main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Welcome to Account Space</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('app_clienthome') }}">Home</a></li>
+                <li class="breadcrumb-item active">my accounts</li>
+
+            </ol>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <h4 data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;color: #0b5ed7;">Add An Account
+                    <img style="width: 3rem" src="{{ asset('images/add icon.png') }}"></h4>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Choose One Of The Suggested Account :</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    <li>STUDENT Account <a href="#" class="details-link" data-account-type="STUDENT Account" data-description="{{ studentAccountDescription|raw }}">Details</a></li>
+                                    <li>SAVINGS Account <a href="#" class="details-link" data-account-type="SAVINGS Account" data-description="{{ savingsAccountDescription|raw }}">Details</a></li>
+                                    <li>CHECKING Account <a href="#" class="details-link" data-account-type="CHECKING Account" data-description="{{ checkingAccountDescription|raw }}">Details</a></li>
+                                    <li>JOINT Account <a href="#" class="details-link" data-account-type="JOINT Account" data-description="{{ jointAccountDescription|raw}}">Details</a></li>
+                                    <li>BUSINESS Account <a href="#" class="details-link" data-account-type="BUSINESS Account" data-description="{{ businessAccountDescription|raw }}">Details</a></li>
+                                </ul>
+                            </div>
+                            <p style="padding: 1rem;color: indianred">Please read carefully the details of each account before choosing one 📖, and select the one that suits your needs 🎯 and your financial situation 💰.</p>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title
+                        ">My Accounts</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <br>
+
+                            <div class="container"> <!-- This container is needed for proper alignment -->
+                                <div class="row">
+                                    {% for account in list_account %}
+                                        <div class="col-sm-6">
+                                            <div class="card card-background" data-account-type="{{ account.accountType.name | lower }}" style="height: 15.5rem;">
+                                                <!-- Date in the top right corner -->
+                                                <div class="card-date-position text-right">
+                                                    <p class="mb-0">created: {{ account.createdAt|date('Y-m-d') }}</p>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ account.accountType.name }} Account</h5>
+                                                    <p>Account ID : {{ account.accountNumber }}</p>
+                                                    {% if(account.accountType.name == "STUDENT") %}{% set backgroundImg = asset('images/student.jpg') %}
+                                                        <p class="card-text">Tailored for students, offering features like no minimum balance, no monthly fees, and sometimes perks or discounts.</p>
+                                                    {% elseif(account.accountType.name == "SAVINGS") %}
+                                                        <p class="card-text">Designed to help you grow your savings effortlessly with competitive interest rates.</p>
+                                                    {% elseif(account.accountType.name == "CHECKING") %}
+                                                        <p class="card-text">Offers the utmost convenience for daily transactions, providing a secure and efficient way to manage your money.</p>
+                                                    {% elseif(account.accountType.name == "JOINT") %}
+                                                        <p class="card-text">An excellent way for partners, family members, or business associates to manage shared finances with ease and transparency.</p>
+                                                    {% elseif(account.accountType.name == "BUSINESS") %}
+                                                        <p class="card-text">Designed to meet the unique financial needs of businesses, providing essential tools and services to facilitate smooth operations and growth.</p>
+                                                    {% endif %}
+                                                    <a class="btn btn-outline-info analysis_btn" data-account-id="{{ account.id }}" style="font-size: 15px">My Analysis
+                                                        <span class="spinner-border spinner-border-sm spinner-analysis" style="display: none;"></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <p style="color: indianred">Please select one of your accounts to see its analysis !</p>
+                            <h2 id="accountTypeDisplay" class="card-title"></h2>
+                            <h4 id="accountIdDisplay"></h4>
+                        </div>
+                        <div id="iframeContainer">
+                            <iframe id="analyticsIframe" src={{ path('app_clientdash_account')}} frameborder="0" width="100%" style="height: 67rem"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </main>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const modalBody = document.querySelector('.modal-body');
+            const originalModalBodyHTML = modalBody.innerHTML;
+            const modalTitle = document.getElementById('exampleModalLabel');
+
+            // Function to update modal for details view
+            function updateModalForDetails(accountType, description) {
+                modalTitle.innerHTML = `<a href="#" id="backLink" style="margin-right: 10px;font-size: 1.1rem">&lt; Go back</a> <br>${accountType}`;
+                modalBody.innerHTML = `
+            <p>${description}</p>
+            <form id="currencyForm">
+                <p style="color: forestgreen">Choose a currency to be used for this account:</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="currency" id="usdCurrency" value="USD" checked>
+                    <label class="form-check-label" for="usdCurrency">
+                        USD
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="currency" id="eurCurrency" value="EUR">
+                    <label class="form-check-label" for="eurCurrency">
+                        EUR
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="currency" id="tndCurrency" value="TND">
+                    <label class="form-check-label" for="tndCurrency">
+                        TND
+                    </label>
+                </div>
+            </form>
+            <br>
+            <button type="button" class="btn btn-outline-success" id="createAccountBtn">Create
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+            </button>
+        `;
+            }
+
+            // Event delegation for "Details" links
+            modalBody.addEventListener('click', function(e) {
+                if (e.target.matches('.details-link')) {
+                    e.preventDefault();
+                    const accountType = e.target.getAttribute('data-account-type');
+                    const description = e.target.getAttribute('data-description');
+                    updateModalForDetails(accountType, description);
+
+                    // Show the modal if not already visible
+                    var exampleModal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+                    exampleModal.show();
+                }
+            });
+
+            // Event listener for the "Back" link using event delegation
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('#backLink')) {
+                    e.preventDefault();
+                    modalTitle.textContent = 'Choose One Of The Suggested Account:';
+                    modalBody.innerHTML = originalModalBodyHTML;
+                }
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'createAccountBtn') {
+                e.preventDefault();
+
+                let modalTitle = document.getElementById('exampleModalLabel');
+                const accountTypePrefix = "< Go back ";
+                const accountTypeStartIndex = modalTitle.textContent.indexOf(accountTypePrefix) + accountTypePrefix.length;
+                const accountType = modalTitle.textContent.substring(accountTypeStartIndex).trim();
+                const selectedCurrency = document.querySelector('input[name="currency"]:checked').value;
+
+                console.log(accountType, selectedCurrency);
+
+                // Show spinner
+                const spinner = e.target.querySelector('.spinner-border');
+                spinner.style.display = 'inline-block';
+                e.target.disabled = true; // Disable the button to prevent multiple clicks
+
+                fetch('/financialHub.com/client/create_account', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        accountType: accountType,
+                        currency: selectedCurrency
+                    })
+                })
+                    .then(response => {
+                        // Hide spinner and re-enable button if response is not OK
+                        if (!response.ok) {
+                            spinner.style.display = 'none';
+                            e.target.disabled = false;
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        // No need to hide spinner here as we are reloading the page
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error('There has been a problem with your fetch operation:', error);
+                        // Hide spinner and re-enable button on error
+                        spinner.style.display = 'none';
+                        e.target.disabled = false;
+                    });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const backgrounds = {
+                student: '/images/student.png',
+                savings: '/images/SavingAccount.png',
+                checking: '/images/checkingaccount.png',
+                joint: '/images/jointaccount.png',
+                business: '/images/businessaccount.png',
+            };
+
+            let styleElement = document.createElement('style');
+            document.head.appendChild(styleElement);
+            let styleSheet = styleElement.sheet;
+
+            document.querySelectorAll('.card-background').forEach((element, index) => {
+                const accountType = element.getAttribute('data-account-type');
+                const imageUrl = backgrounds[accountType];
+
+                if (imageUrl) {
+                    // Create a unique class for each card
+                    const className = `card-background-${accountType}-${index}`;
+                    element.classList.add(className);
+
+                    // Add a CSS rule for this class's ::before pseudo-element
+                    styleSheet.insertRule(`.${className}::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-image: url('${imageUrl}');
+                background-size: 18rem;
+                background-position: right;
+                background-repeat: no-repeat;
+                opacity: 0.7;
+                z-index: -1;
+            }`, styleSheet.cssRules.length);
+                }
+            });
+        });
+
+        let accountType = ''; // Replace with the actual account type
+        let accountNumber = ''; // Replace with the actual account number
+        document.addEventListener("DOMContentLoaded", function() {
+            // Correct the class selector from '.analysis_btn' to ensure it targets elements correctly
+            document.querySelectorAll('.analysis_btn').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const spinner = this.querySelector('.spinner-analysis'); // Find the spinner within this button
+                    spinner.style.display = 'inline-block'; // Show this button's spinner
+
+                    const accountId = this.getAttribute('data-account-id');
+
+                    fetch(`/financialHub.com/client/my_accounts/get_account_data/${accountId}`)
+                        .then(response => response.json())
+                        .then(accountData => {
+                            console.log(accountData);
+                             accountType = accountData.account.accountType;
+                             accountNumber = accountData.account.accountNumber;
+                            // Update the display with the account ID
+                            document.getElementById('accountIdDisplay').textContent = `Account ID: ${accountNumber}`;
+                            document.getElementById('accountTypeDisplay').textContent = 'Analysis for ' + accountType + ' Account';
+
+                            // Update the iframe source
+                            const accountId = accountNumber; // Example account ID. Replace with dynamic data as needed.
+                            const iframeSrc = `/financialHub.com/client/my_accounts/dash_account?accountId=${encodeURIComponent(accountId)}`; // Replace with the actual URL
+                            const analyticsIframe = document.getElementById('analyticsIframe');
+                            // Set the src attribute to trigger the loading of new content
+                            analyticsIframe.src = iframeSrc;
+
+                            // Add an event listener for the 'load' event
+                            analyticsIframe.addEventListener('load', function() {
+                                // This function is called once the iframe content has fully loaded
+                                spinner.style.display = 'none';
+                                const accountTypeElement = document.getElementById('accountTypeDisplay');
+                                if (accountTypeElement) {
+                                    accountTypeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    // Now that the content is loaded, remove the overlay
+                                    removeOverlay();
+                                }
+                            });
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            });
+
+        });
+
+
+
+        const iframeContainer = document.getElementById('iframeContainer');
+
+        // Function to add the overlay
+        function addOverlay() {
+            // Check if the overlay already exists to avoid duplicates
+            if (!document.getElementById('iframeOverlay')) {
+                const overlay = document.createElement('div');
+                overlay.id = 'iframeOverlay';
+                overlay.style.position = 'absolute';
+                overlay.style.top = 0;
+                overlay.style.left = 0;
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                iframeContainer.appendChild(overlay);
+                iframeContainer.style.position = 'relative';
+                iframeContainer.style.overflow = 'hidden';
+
+                // Configure the overlay to be visually "flou" (blurry)
+                const blurEffect = document.createElement('div');
+                blurEffect.style.position = 'absolute';
+                blurEffect.style.top = 0;
+                blurEffect.style.left = 0;
+                blurEffect.style.width = '100%';
+                blurEffect.style.height = '100%';
+                blurEffect.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // Dark overlay
+                blurEffect.style.backdropFilter = 'blur(5px)'; // Apply blur effect
+                blurEffect.style.webkitBackdropFilter = 'blur(5px)'; // For Safari
+
+                overlay.appendChild(blurEffect);
+            }
+        }
+
+        // Function to remove the overlay
+        function removeOverlay() {
+            const overlay = document.getElementById('iframeOverlay');
+            if (overlay) {
+                overlay.parentNode.removeChild(overlay);
+            }
+        }
+
+        // Function to add the overlay
+        if (accountNumber==='') {
+            addOverlay();
+        }
+
+
+
+
+
+    </script>
+
+</main>
+
+{% endblock %}
+

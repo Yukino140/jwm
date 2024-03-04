@@ -1,0 +1,92 @@
+{#
+{% extends 'clientdash/index.html.twig' %}
+
+{% block body %}
+    <main id="main" class="main">
+        <h1>your wallet</h1>
+        <p>Welcome to the wallet space</p>
+    </main>
+
+{% endblock %}
+#}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Wallet</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .wallet-info {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .balance, .send-crypto, .transaction-history {
+            margin-bottom: 20px;
+        }
+
+        .fa-wallet, .fa-paper-plane, .fa-list, .fa-exchange-alt {
+            margin-right: 8px;
+        }
+
+        .btn .fa-paper-plane {
+            margin-right: 0; /* Adjust icon spacing inside button */
+        }
+
+        /* Optional: Adjust icon colors */
+        .fas {
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="mt-5">My Crypto Wallet</h2>
+    <div class="balance mb-3">
+        <h4><i class="fas fa-wallet"></i> Balance</h4>
+        <p id="walletBalance">0.00 BTC</p>
+    </div>
+    <div class="send-crypto mb-3">
+        <h4><i class="fas fa-paper-plane"></i> Send Cryptocurrency</h4>
+        <form>
+            <div class="form-group">
+                <label for="sendToAddress">To Address</label>
+                <input type="text" class="form-control" id="sendToAddress" placeholder="Enter address">
+            </div>
+            <div class="form-group">
+                <label for="sendAmount">Amount</label>
+                <input type="number" step="any" class="form-control" id="sendAmount" placeholder="0.00">
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send</button>
+        </form>
+    </div>
+    <div class="transaction-history">
+        <h4><i class="fas fa-list"></i> Transaction History</h4>
+        <ul class="list-group">
+            <li class="list-group-item"><i class="fas fa-exchange-alt"></i> Transaction 1</li>
+            <li class="list-group-item"><i class="fas fa-exchange-alt"></i> Transaction 2</li>
+            <li class="list-group-item"><i class="fas fa-exchange-alt"></i> Transaction 3</li>
+        </ul>
+    </div>
+
+</div>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.5/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

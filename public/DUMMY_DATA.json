@@ -1,0 +1,259 @@
+{
+  "CLIENTS": [
+    {
+      "first_name": "Maria",
+      "last_name": "Robinson",
+      "email": "steven92@hotmail.com",
+      "password": "oussna",
+      "phone_number": "9099874233",
+      "cin": 51289851,
+      "birth_date": "1969-06-09",
+      "address": "0749 Christopher Prairie, West Cynthiaview, AR 47880",
+      "transaction_limit": 9569,
+      "account_type": "checking"
+    },
+    {
+      "first_name": "Alan",
+      "last_name": "Robinson",
+      "email": "rsilva@yahoo.com",
+      "password": "oussna",
+      "phone_number": "663586218068",
+      "cin": 61100297,
+      "birth_date": "2003-04-06",
+      "address": "07814 Hawkins Square Apt. 322, Port Donna, CT 95376",
+      "transaction_limit": 5403,
+      "account_type": "checking"
+    },
+    {
+      "first_name": "William",
+      "last_name": "Thompson",
+      "email": "sross@lewis-willis.info",
+      "password": "oussna",
+      "phone_number": "00185777906158",
+      "cin": 77381014,
+      "birth_date": "1965-02-14",
+      "address": "64221 Ryan Camp Suite 757, Smithbury, LA 40361",
+      "transaction_limit": 7742,
+      "account_type": "investment"
+    },
+    {
+      "first_name": "William",
+      "last_name": "Zamora",
+      "email": "athomas@jones.com",
+      "password": "oussna",
+      "phone_number": "89033283",
+      "cin": 21117788,
+      "birth_date": "1967-05-08",
+      "address": "28085 Case Alley, Sarahville, ND 60632",
+      "transaction_limit": 2851,
+      "account_type": "savings"
+    },
+    {
+      "first_name": "Joshua",
+      "last_name": "Sullivan",
+      "email": "eugenewilson@yahoo.com",
+      "password": "oussna",
+      "phone_number": "23960784767",
+      "cin": 57340507,
+      "birth_date": "1995-04-10",
+      "address": "3846 King Ramp, Lake Neiltown, NY 81474",
+      "transaction_limit": 2191,
+      "account_type": "investment"
+    },
+    {
+      "first_name": "Adam",
+      "last_name": "Floyd",
+      "email": "schmidtkevin@howard.info",
+      "password": "oussna",
+      "phone_number": "972046422",
+      "cin": 61391124,
+      "birth_date": "1990-12-19",
+      "address": "60964 Jose Shore Apt. 608, Johnstonberg, NJ 21711",
+      "transaction_limit": 3687,
+      "account_type": "checking"
+    },
+    {
+      "first_name": "Seth",
+      "last_name": "Miller",
+      "email": "briana32@hotmail.com",
+      "password": "oussna",
+      "phone_number": "6869056805",
+      "cin": 21424412,
+      "birth_date": "1976-05-16",
+      "address": "368 Lauren Locks, Chenchester, WY 28109",
+      "transaction_limit": 6057,
+      "account_type": "investment"
+    },
+    {
+      "first_name": "Glenn",
+      "last_name": "English",
+      "email": "dominguezashley@hotmail.com",
+      "password": "oussna",
+      "phone_number": "045697987",
+      "cin": 87073118,
+      "birth_date": "1971-12-13",
+      "address": "468 Hogan Plaza Suite 731, New Mark, CA 51929",
+      "transaction_limit": 3687,
+      "account_type": "savings"
+    },
+    {
+      "first_name": "David",
+      "last_name": "Wolfe",
+      "email": "sanchezdarren@yahoo.com",
+      "password": "oussna",
+      "phone_number": "5508274919",
+      "cin": 68268503,
+      "birth_date": "1985-08-10",
+      "address": "027 Grace Extension Suite 905, South Melanieside, IL 62408",
+      "transaction_limit": 6353,
+      "account_type": "savings"
+    },
+    {
+      "first_name": "Lindsey",
+      "last_name": "Harvey",
+      "email": "nancy73@miller.net",
+      "password": "oussna",
+      "phone_number": "44283359045",
+      "cin": 41665031,
+      "birth_date": "1983-11-15",
+      "address": "50128 Anderson Parks, Richardsview, AK 88151",
+      "transaction_limit": 6094,
+      "account_type": "savings"
+    },
+    {
+      "first_name": "Jordan",
+      "last_name": "Brown",
+      "email": "joshua33@hotmail.com",
+      "password": "!Y6(RKz7_MlH",
+      "phone_number": "4379366157",
+      "cin": 39379448,
+      "birth_date": "1992-04-13",
+      "address": "4634 Jackson Extensions Suite 072, North Annafort, WA 27819",
+      "transaction_limit": 6697,
+      "account_type": "checking"
+    },
+    {
+      "first_name": "Joseph",
+      "last_name": "Gray",
+      "email": "ann93@gmail.com",
+      "password": "F(8^M_nLO^aJ",
+      "phone_number": "1025592284",
+      "cin": 90273612,
+      "birth_date": "1964-05-14",
+      "address": "3984 Arias Crest Suite 613, New Judy, IN 06012",
+      "transaction_limit": 9119,
+      "account_type": "checking"
+    },
+    {
+      "first_name": "Jason",
+      "last_name": "Miller",
+      "email": "jamie86@mills.com",
+      "password": "fws57RDCM#i3",
+      "phone_number": "7499231477",
+      "cin": 52511146,
+      "birth_date": "1980-02-14",
+      "address": "911 Janet Summit Suite 716, South Elizabeth, IN 57306",
+      "transaction_limit": 8511,
+      "account_type": "checking"
+    },
+    {
+      "first_name": "Monique",
+      "last_name": "Hall",
+      "email": "samanthafisher@yahoo.com",
+      "password": "%aE7fmpP690B",
+      "phone_number": "5524565191",
+      "cin": 11896476,
+      "birth_date": "1989-09-27",
+      "address": "54794 Tyler Square Apt. 237, Lake Kennethview, CT 15561",
+      "transaction_limit": 5919,
+      "account_type": "savings"
+    },
+    {
+      "first_name": "Juan",
+      "last_name": "Mcneil",
+      "email": "anita60@foster.com",
+      "password": ")JDy$ryk082*",
+      "phone_number": "2387047891",
+      "cin": 31073241,
+      "birth_date": "1997-01-18",
+      "address": "59218 Dylan Views, Marshfort, ND 03385",
+      "transaction_limit": 7807,
+      "account_type": "checking"
+    }
+  ],
+  "AGENTS": {
+    "responsible_accounts": [
+      {
+        "first_name": "Juan",
+        "last_name": "Mcneil",
+        "email": "anita60@foster.com",
+        "password": ")JDy$ryk082*",
+        "phone_number": "2387047891",
+        "cin": 31073241
+      },
+      {
+        "first_name": "Maria",
+        "last_name": "Gonzalez",
+        "email": "maria.gonzalez@example.com",
+        "password": "P@ssw0rd123",
+        "phone_number": "5551234567",
+        "cin": 98765432
+      }
+    ],
+    "responsible_investment": [
+      {
+        "first_name": "John",
+        "last_name": "Doe",
+        "email": "john.doe@example.com",
+        "password": "DoeP@ssword123",
+        "phone_number": "1234567890",
+        "cin": 12345678
+      },
+      {
+        "first_name": "Emily",
+        "last_name": "Smith",
+        "email": "emily.smith@example.com",
+        "password": "SecurePwd123!",
+        "phone_number": "9876543210",
+        "cin": 87654321
+      }
+    ],
+    "responsible_clientele": [
+      {
+        "first_name": "Carlos",
+        "last_name": "Santos",
+        "email": "carlos.santos@example.com",
+        "password": "Carlo$Pwd456",
+        "phone_number": "4567890123",
+        "cin": 23456789
+      },
+      {
+        "first_name": "Jessica",
+        "last_name": "Brown",
+        "email": "jessica.brown@example.com",
+        "password": "BrownPass789",
+        "phone_number": "7890123456",
+        "cin": 34567890
+      }
+    ],
+    "responsible_loan": [
+      {
+        "first_name": "Daniel",
+        "last_name": "Martinez",
+        "email": "daniel.martinez@example.com",
+        "password": "D@n1elPwd!",
+        "phone_number": "6543210987",
+        "cin": 45678901
+      },
+      {
+        "first_name": "Amanda",
+        "last_name": "Johnson",
+        "email": "amanda.johnson@example.com",
+        "password": "Amand@Pwd123",
+        "phone_number": "2109876543",
+        "cin": 56789012
+      }
+    ]
+  }
+
+}
