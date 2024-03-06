@@ -45,13 +45,26 @@ class TransactionRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function findByAccountNumber(string $string)
+    public function findByAccountNumber(string $string=null, $date1 = null, $date2 = null)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.account_number = :val')
-            ->setParameter('val', $string)
-            ->getQuery()
-            ->getResult()
-        ;
+        $query= $this->createQueryBuilder('t');
+        if($string!=null) {
+            $query->andWhere('t.account_number = :val')
+                ->setParameter('val', $string);
+        }
+        if ($date1 != null) {
+            $query->andWhere('t.date > :date1')
+                ->setParameter('date1', $date1);
+        }
+        if (($date2 != null)) {
+            if (($date1 == null) or ($date2 > $date1)) {
+                $query->andWhere('t.date< :date2')
+                    ->setParameter('date2', $date2);
+            }
+
+        }
+            return $query->getQuery()->getResult();
     }
+
+
 }

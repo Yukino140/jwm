@@ -2,8 +2,11 @@
 
 namespace App\Entity\transactions;
 
+use App\Entity\transactions\Facture;
 use App\Repository\TransactionRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
 class Transaction
@@ -22,8 +25,10 @@ class Transaction
     #[ORM\Column]
     private ?float $amount = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups("transaction")]
+    private ?\DateTimeInterface $date = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
@@ -36,6 +41,9 @@ class Transaction
 
     #[ORM\Column(length: 255)]
     private ?string $receiver_account_number = null;
+
+    #[ORM\OneToOne(mappedBy: 'idTransaction', cascade: ['persist', 'remove'])]
+    private ?\App\Entity\transactions\Facture $facture = null;
 
     public function getId(): ?int
     {
@@ -78,18 +86,17 @@ class Transaction
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->date;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setDate(\DateTimeInterface $date): static
     {
-        $this->created_at = $created_at;
+        $this->date = $date;
 
         return $this;
     }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -141,5 +148,21 @@ class Transaction
     public function __toString(): string
     {
         return $this->id;
+    }
+    public function getFacture(): ?Facture
+    {
+        return $this->facture;
+    }
+
+    public function setFacture(Facture $facture): static
+    {
+        // set the owning side of the relation if necessary
+        if ($facture->getIdTransaction() !== $this) {
+            $facture->setIdTransaction($this);
+        }
+
+        $this->facture = $facture;
+
+        return $this;
     }
 }

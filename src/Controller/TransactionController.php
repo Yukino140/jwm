@@ -2,13 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\transactions\Facture;
 use App\Entity\transactions\SendMoneyFormType;
 use App\Entity\transactions\Transaction;
 use App\Repository\AccountRepository;
+use App\Repository\CompteRepository;
+use App\Repository\FactureRepository;
 use App\Repository\TransactionRepository;
 use App\services\AppExtension;
+use Doctrine\Persistence\ManagerRegistry;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,7 +51,7 @@ class TransactionController extends AbstractController
             $transaction->setAccountNumber('');
             $transaction->setTransactionType($formData['account']);
             $transaction->setAmount($formData['amount']);
-            $transaction->setCreatedAt(new \DateTimeImmutable());
+            $transaction->setDate(new \DateTime('now'));
             $transaction->setDescription('');
             $transaction->setAuthenticatorCode(0);
             $transaction->setReceiverAccountNumber($formData['recipient']);
@@ -157,18 +164,40 @@ class TransactionController extends AbstractController
      * facture or a transaction type
      */
     #[Route('/show_all', name: 'app_transaction_list')]
-    public function list(TransactionRepository $transactionRepository,AppExtension $appExtension): Response
+    public function list(TransactionRepository $transactionRepository,AppExtension $appExtension,Request $req):Response
     {
         $myAccounts = $appExtension->getClient()->getListAccount()->toArray();
         $myTransactions = [];
+        $date1=$req->get('date1');
+        $date2=$req->get('date2');
         foreach ($myAccounts as $account){
-            $myTransactions = array_merge($myTransactions,$transactionRepository->findByAccountNumber($account->getAccountNumber()));
+            $myTransactions = array_merge($myTransactions,$transactionRepository->findByAccountNumber($account->getAccountNumber(),$date1,$date2));
         }
         dump($myTransactions);
+        if($req->get('ajax')){
+            return new JsonResponse([
+                'content'=>$this->renderView('transaction/tableTransactionsClient.html.twig',[
+                    'transactions' => $myTransactions,
+                    'date1'=>$date1,
+                    'date2'=>$date2
+
+
+                ]),
+                'data'=>$this->renderView('Receipt/ReceiptTotal.html.twig',[
+                    'transactions' => $myTransactions,
+                    'date1'=>$date1,
+                    'date2'=>$date2,
+                    ])
+
+            ]);
+        }
+
 
         return $this->render('transaction/all_transations.html.twig', [
             'controller_name' => 'TransactionController',
-            'transactions' => $myTransactions
+            'transactions' => $myTransactions,
+            'date1'=>$date1,
+            'date2'=>$date2,
         ]);
     }
 
@@ -193,5 +222,124 @@ class TransactionController extends AbstractController
         return $this->render('transaction/manage_categories.html.twig', [
             'controller_name' => 'TransactionController',
         ]);
+    }
+
+    //Add Facture methode
+    #[Route('addFacture/{id}',name:'addF')]
+    public function addFacture(Request $req, ManagerRegistry $mg,TransactionRepository $rep,$id):Response
+    {
+        $em = $mg->getManager();
+        $facture=new Facture();
+        $transaction=$rep->find($id);
+        $facture->setIdTransaction($transaction);
+
+            $facture->setTax(1);
+            $facture->setMontantTTC($transaction->getAmount()-($transaction->getAmount()*0.01));
+
+
+
+        $em->persist($facture);
+        $em->flush();
+        return $this->redirectToRoute('app_transaction_list',[
+            "tran"=>$transaction,
+            "fac"=>$facture
+        ]);
+
+    }
+
+
+    //show Facture By idTransaction
+    #[Route('showFact/{id}',name:'showF')]
+    public function showFa($id,FactureRepository $repo,TransactionRepository $rep):Response
+    {
+        $fact=$repo->findByIDTransaction($id);
+        $tranc=$rep->find($id);
+        return $this->render('Receipt/Receipt.html.twig',['tranc'=>$tranc,'fact'=>$fact]);
+    }
+
+
+    //Exportation in PDF File
+
+    #[Route('/pdf/{id}',name:'pdf')]
+    public function pdfgenerate(Request $req,$id,FactureRepository $repo,TransactionRepository $rep):Response
+    {
+        $pdfOption = new Options();
+        $pdfOption->set('defaultFont','Arial');
+        $pdfOption->setIsRemoteEnabled(true);
+
+        $dompdf=new Dompdf($pdfOption);
+        $context= stream_context_create([
+            'ssl' => [
+                'verify_peer'=>False,
+                'verify_peer_name'=>False,
+                'allow_self_signed'=>True
+            ]
+        ]);
+        $fact=$repo->findByIDTransaction($id);
+        $tranc=$rep->find($id);
+        $compte=$tranc->getAccountNumber();
+        $dompdf->setHttpContext($context);
+        $html=$this->renderView('Receipt/ReceiptTable.html.twig',['tranc'=>$tranc,'fact'=>$fact]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4');
+        $dompdf->render();
+        $fichier='facture°'.$fact->getId().'.pdf';
+
+        $dompdf->stream($fichier,[
+            'Attachement'=>true
+        ]);
+        return new Response();
+    }
+
+    //delete a Transaction By ID
+
+    #[Route('deleteT/{id}',name:'deleteT')]
+    public function deleteT($id,TransactionRepository $repo,FactureRepository $rep,ManagerRegistry $mg):Response
+    {
+        $facture=$rep->findByIDTransactionOrNot($id);
+        $transaction=$repo->find($id);
+        $em=$mg->getManager();
+        if($facture!=null){
+            $em->remove($facture);
+            $em->flush();
+        }
+        $em->remove($transaction);
+        $em->flush();
+        return $this->redirectToRoute('app_transaction_list');
+
+    }
+
+    //delete a Receipt by ID
+
+    #[Route('deleteF/{id}',name:'deleteF')]
+    public function deleteF($id,FactureRepository $rep,ManagerRegistry $mg,TransactionRepository $repo):Response
+    {
+        $facture=$rep->find($id);
+        $em=$mg->getManager();
+        $em->remove($facture);
+        $em->flush();
+        return $this->redirectToRoute('app_transaction_list');
+    }
+
+    #[Route('/excel',name:'ExportExcel')]
+    public function exportExcel(Request $req,TransactionRepository $rep,AppExtension $appExtension)
+    {
+        $myAccounts = $appExtension->getClient()->getListAccount()->toArray();
+
+        $date1=$req->get('date1');
+        $date2=$req->get('date2');
+        $myTransactions=$rep->findByAccountNumber($date1,$date2);
+        $filename="data".$date1."=>".$date2.".xls";
+        $fileds=array('ID','TypeTransaction','ReceiverAccount','Amount');
+        $excelData = implode("\t",array_values($fileds))."\n";
+        foreach ($myTransactions as $t){
+            $lineData =array($t->getId(),$t->getTransactionType(),$t->getReceiverAccountNumber(),$t->getAmount());
+            $excelData .=implode("\t",array_values($lineData))."\n";
+
+        }
+        header("Content-Type: application/vnd.ms-excel");
+        header("Content-Disposition: attachement; filename=\"$filename\"");
+        echo $excelData;
+        exit();
     }
 }

@@ -1,0 +1,55 @@
+{% block stylesheets %}
+    <link href="{{ asset('style.css') }}" rel="stylesheet">
+    <style>
+        table,th,td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="container" id="facture">
+
+        <div >
+
+            <h2 style="text-align: center">Facture n°{{ fact.id }}</h2>
+        </div>
+        <div class="invoice-details">
+            <p><strong>Account Number:</strong> {{ tranc.getAccountNumber }}</p>
+            <p><strong>Received Account:</strong> {{ tranc.getReceiverAccountNumber }}</p>
+
+            <p><strong>Date:</strong> {{ tranc.date|date('d-m-Y') }}</p>
+        </div>
+        <table  style="width: 100%;">
+            <thead>
+            <tr>
+                <th scope="col">Transaction</th>
+                <th scope="col">Date</th>
+                <th scope="col">Montant</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+                <td>{{ tranc.getTransactionType }}</td>
+                <td>{{ tranc.date|date('d-m-Y') }}</td>
+                <td>{{ tranc.getAmount }}</td>
+            </tr>
+
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="2" class="total">Tax</td>
+                <td class="total">{{ fact.tax }}%</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="total">Total</td>
+                <td class="total">{{ fact.montantTTC }}</td>
+            </tr>
+            </tfoot>
+        </table>
+        <br/>
+        <br/>
+
+    </div>
+{% endblock %}

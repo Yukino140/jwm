@@ -1,0 +1,50 @@
+
+
+{% block stylesheets %}
+    <link href="{{ asset('style.css') }}" rel="stylesheet">
+
+{% endblock %}
+{% block body %}
+
+
+    <div class="container" id="facture">
+
+        <div >
+
+            <h2>Transactions Receipt from {{ date1|date('d-m-Y') }} to {{ date2|date('d-m-Y') }}</h2>
+        </div>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Transaction</th>
+                <th>Receiver</th>
+                <th>Date</th>
+                <th>Montant</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for t in transactions %}
+                <tr>
+                    <td>{{ t.getTransactionType }}</td>
+                    <td>{{ t.getReceiverAccountNumber }}</td>
+                    <td>{{ t.getDate|date('d-m-Y') }}</td>
+                    <td>{{ t.getAmount }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+        </table>
+        <br/>
+        <br/>
+
+    </div>
+    <button class="btn btn-success"><a href="{{ path('ExportExcel') }}" style="color: white;">Export Excel</a></button>
+    <button class="btn btn-secondary" id="close">Close</button>
+    </main>
+
+
+{% endblock %}
+

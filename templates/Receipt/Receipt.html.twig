@@ -1,0 +1,49 @@
+{% extends 'clientdash/index.html.twig' %}
+{% block body %}
+    <main id="main" class="main">
+
+        {% include 'Receipt/ReceiptTable.html.twig' %}
+        <button class="btn btn-primary" id="mail" >Send Mail</button>
+        <button class="btn btn-secondary">Export Excel</button>
+        <button class="btn btn-danger"><a href="{{ path('deleteF',{id:fact.id}) }}" style="color: white;">Delete</a></button>
+        <button class="btn btn-success" id="pdf"><a href="{{ path('pdf',{id:tranc.id}) }}">PDF</a></button>
+
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        window.onload=()=>{
+            const input=document.querySelector("#mail")
+            input.addEventListener("click",()=>{
+                const fact=document.querySelector("#facture")
+                const Params= new URLSearchParams()
+                Params.append("facture",fact.innerHTML)
+                const Url = new URL(window.location.href)
+                fetch(Url.pathname + "?" + Params.toString() + "&mail=1",{
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                }).then(response=>{
+                    console.log(response)
+                }).catch(e =>alert(e))
+
+            })
+            const input1=document.querySelector("#mail")
+            input1.addEventListener("click",()=>{
+                const fact=document.querySelector("#facture")
+                const Params= new URLSearchParams()
+                Params.append("facture",fact.innerHTML)
+                const Url = new URL(window.location.href)
+                fetch(Url.pathname + "?" + Params.toString() ,{
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                }).then(response=>{
+                    console.log(response)
+                }).catch(e =>alert(e))
+
+            })
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,39 @@
+
+{% block body %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">from</th>
+            <th scope="col">to</th>
+            <th scope="col">Your Account Type</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.getAccountNumber }}</td>
+                <td>{{ transaction.getReceiverAccountNumber }}</td>
+                <td>{{ transaction.getTransactionType }}</td>
+                <td>{{ transaction.getAmount }}</td>
+                <td>{{ transaction.getDate|date('d-m-Y') }}</td>
+                <td>{% if transaction.facture==null %}
+
+                        <button class="btn btn-success"><a href="{{ path('addF',{id:transaction.id}) }}" style="color: white;"><i class="bi bi-file-earmark-plus"></i>
+                            </a></button>
+                    {% endif %}
+                    {% if transaction.facture!=null %}
+                        <button class="btn btn-secondary"><a  href="{{ path('showF',{id:transaction.id}) }}" style="color: white;"><i class="bi bi-receipt"></i>
+                            </a></button>
+
+                    {% endif %}
+                    <button class="btn btn-danger"><a  href="{{ path('deleteT',{id:transaction.id}) }}" style="color: white;"><i class="bi bi-trash"></i>
+                        </a></button></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
