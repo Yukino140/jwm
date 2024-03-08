@@ -1,0 +1,105 @@
+{% block body %}
+
+        <div class="card">
+
+            <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                        <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">Reports <span>/Today</span></h5>
+
+                <!-- Line Chart -->
+                <div id="reportsChart"></div>
+
+                <script>
+
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const s = {{ s|json_encode|raw }};
+                        const c = {{ c|json_encode|raw }};
+                        const sa = {{ sa|json_encode|raw }};
+                        const j = {{ j|json_encode|raw }};
+                        const b = {{ b|json_encode|raw }};
+                        const d ={{ date|json_encode|raw }}
+                            function getDate(d){
+                                arr=[]
+                                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+                                for(i=0;i<d.length;i++){
+                                    arr.push(d[i].date)
+                                }
+                                return arr;
+                            }
+                            console.log(d)
+                        new ApexCharts(document.querySelector("#reportsChart"), {
+                            series: [{
+                                name: 'STUDENT',
+                                data:  s ,
+                            },{
+                                name: 'CHECKING',
+                                data:  c ,
+                            },{
+                                name: 'SAVINGS',
+                                data:  sa ,
+                            },{
+                                name: 'JOINT',
+                                data:  j ,
+                            },{
+                                name: 'BUSINESS',
+                                data:  b ,
+                            },],
+                            chart: {
+                                height: 350,
+                                type: 'area',
+                                toolbar: {
+                                    show: false
+                                },
+                            },
+                            markers: {
+                                size: 4
+                            },
+                            colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                            fill: {
+                                type: "gradient",
+                                gradient: {
+                                    shadeIntensity: 1,
+                                    opacityFrom: 0.3,
+                                    opacityTo: 0.4,
+                                    stops: [0, 90, 100]
+                                }
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            stroke: {
+                                curve: 'smooth',
+                                width: 2
+                            },
+                            xaxis: {
+                                type: 'date',
+                                categories:getDate(d)
+                            },
+                            tooltip: {
+                                x: {
+                                    format: 'dd/MM/yy'
+                                },
+                            }
+                        }).render();
+                    });
+                </script>
+                <!-- End Line Chart -->
+
+            </div>
+
+        </div>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{% block stylesheets %}
+    <style>
+        table,th,td{
+            border:1px solid black;
+            border-collapse:collapse;
+        }
+        table{
+            width: 100%;
+        }
+        h2{
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="container mt-3">
+        <h2>Transaction Details</h2>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <p><b>Transaction ID:</b> #{{ tran.id }}</p>
+                <p><b>Date:</b> {{ tran.date|date('d-m-y') }}</p>
+                <p><b>Account Type:</b> {{ tran.getTransactionType }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><b>Amount:</b> ${{ tran.getAmount }}</p>
+                <p><b>Account:</b> {{ tran.getAccountNumber }}</p>
+                <p><b>Received Account:</b>{{ tran.getReceiverAccountNumber }}</p>
+            </div>
+        </div>
+        <hr>
+        {% if tran.facture!=null %}
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Receipt</h4>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Transaction</th>
+                            <th>Date</th>
+                            <th>Montant</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr>
+                            <td>{{ tran.getTransactionType }}</td>
+                            <td>{{ tran.date|date('d-m-Y') }}</td>
+                            <td>{{ tran.getAmount }}</td>
+                        </tr>
+
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="2" class="total">Tax</td>
+                            <td class="total">{{ tran.facture.tax}}%</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="total">Total</td>
+                            <td class="total">{{ tran.facture.montantTTC }}</td>
+                        </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

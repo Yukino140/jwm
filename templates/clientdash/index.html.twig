@@ -267,7 +267,7 @@ s
     <aside id="sidebar" class="sidebar">
 
         <ul class="sidebar-nav" id="sidebar-nav">
-
+            {% if is_granted('ROLE_CLIENT')%}
             <li class="nav-item">
                 <a class="nav-link {{ app.request.attributes.get('_route') == 'app_clientdashboard' ? '' : 'collapsed' }}" href="{{ path('app_clientdashboard') }}">
                     <i class="bi bi-grid"></i>
@@ -300,6 +300,11 @@ s
                     <i style="margin-left: 5rem" class="bi bi-chevron-down arrow-icon"></i> <!-- Add this line for the arrow icon -->
                 </a>
                 <ul id="transactions-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ path('Overview') }}">
+                            <i class="bi bi-circle"></i><span>Overview</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="{{ path('app_transaction_list') }}">
                             <i class="bi bi-circle"></i><span>View All Transactions</span>
@@ -402,7 +407,7 @@ s
             <!-- End Blank Page Nav -->
 
         </ul>
-
+        {% endif %}
     </aside><!-- End Sidebar-->
 {% endblock %}
 

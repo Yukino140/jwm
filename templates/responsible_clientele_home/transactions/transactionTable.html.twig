@@ -1,0 +1,30 @@
+{% block body %}
+    <table id="example" class="table table-striped nowrap" >
+        <thead>
+        <tr>
+            <th scope="col">from</th>
+            <th scope="col">to</th>
+            <th scope="col">Your Account Type</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.getAccountNumber }}</td>
+                <td>{{ transaction.getReceiverAccountNumber }}</td>
+                <td>{{ transaction.getTransactionType }}</td>
+                <td>{{ transaction.getAmount }} TND</td>
+                <td>{{ transaction.getDate|date('d-m-Y') }}</td>
+                <td><button class="btn btn-success"><a href="{{ path('detailTransac',{id:transaction.getID}) }}" style="color: white">Details</a></button></td>
+                </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+    <div class="navigation flex justify-center mb-8">
+        {{ knp_pagination_render(transactions) }}
+    </div>
+{% endblock %}

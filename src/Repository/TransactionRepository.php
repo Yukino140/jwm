@@ -66,5 +66,42 @@ class TransactionRepository extends ServiceEntityRepository
             return $query->getQuery()->getResult();
     }
 
+    public function findByAccountNumberDesc(string $string=null)
+    {
+        $query= $this->createQueryBuilder('t');
+        if($string!=null) {
+            $query->andWhere('t.account_number = :val')
+                ->setParameter('val', $string);
+        }
+
+
+
+        return $query->orderBy('t.date','DESC')->getQuery()->getResult();
+    }
+
+    public function findByAccountNumberINC(string $string=null)
+    {
+        $query= $this->createQueryBuilder('t');
+        if($string!=null) {
+            $query->andWhere('t.account_number = :val')
+                ->setParameter('val', $string);
+        }
+
+
+
+        return $query->orderBy('t.date')->getQuery()->getResult();
+    }
+
+    public function findListById($id=null): array
+    {
+        $req=$this->createQueryBuilder('t');
+        if($id != null) {
+
+            $req->andWhere('t.idCompte = :val')
+                ->setParameter('val', $id);
+        }
+
+        return $req->getQuery()->getResult();
+    }
 
 }
